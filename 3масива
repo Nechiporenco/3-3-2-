@@ -10,11 +10,18 @@
     <label for="size1">Введите размер первого массива:</label>
     <input type="number" id="size1">
     
-    <label for="size2">Введите размер второго массива:</label>
+    <label for="size2"> <br>Введите размер второго массива:</label>
     <input type="number" id="size2">
     
     <button onclick="calculateSum()">Сложить</button>
     
+    <h2>Массив 1:</h2>
+    <div id="array1"></div>
+    
+    <h2>Массив 2:</h2>
+    <div id="array2"></div>
+    
+    <h2>Результат сложения:</h2>
     <div id="result"></div>
     
     <script>
@@ -28,12 +35,17 @@
             var rem = 0;
             
             for (var i = 0; i < size1; i++) {
-                arr1.push(Math.floor(Math.random() * 9) + 1);
+                var randomNum = Math.floor(Math.random() * 9) + 1;
+                arr1.push(randomNum);
             }
             
             for (var j = 0; j < size2; j++) {
-                arr2.push(Math.floor(Math.random() * 9) + 1);
+                var randomNum = Math.floor(Math.random() * 9) + 1;
+                arr2.push(randomNum);
             }
+            
+            document.getElementById("array1").innerHTML = arr1.join(", ");
+            document.getElementById("array2").innerHTML = arr2.join(", ");
             
             var i = arr1.length - 1;
             var j = arr2.length - 1;
