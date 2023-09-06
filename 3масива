@@ -6,24 +6,17 @@
 </head>
 <body>
     <h1>Сложение массивов</h1>
-    
     <label for="size1">Введите размер первого массива:</label>
     <input type="number" id="size1">
-    
     <label for="size2"> <br>Введите размер второго массива:</label>
     <input type="number" id="size2">
-    
     <button onclick="calculateSum()">Сложить</button>
-    
     <h2>Массив 1:</h2>
     <div id="array1"></div>
-    
     <h2>Массив 2:</h2>
     <div id="array2"></div>
-    
     <h2>Результат сложения:</h2>
     <div id="result"></div>
-    
     <script>
         function calculateSum() {
             var size1 = parseInt(document.getElementById("size1").value);
@@ -59,7 +52,6 @@
             }
             
             var result = "Результат сложения: " + arr3.reverse().join("");
-            
             document.getElementById("result").innerHTML = result;
         }
     </script>
