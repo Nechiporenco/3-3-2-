@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Сложение массивов</title>
+</head>
+<body>
+    <h1>Сложение массивов</h1>
+    
+    <label for="size1">Введите размер первого массива:</label>
+    <input type="number" id="size1">
+    
+    <label for="size2">Введите размер второго массива:</label>
+    <input type="number" id="size2">
+    
+    <button onclick="calculateSum()">Сложить</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        function calculateSum() {
+            var size1 = parseInt(document.getElementById("size1").value);
+            var size2 = parseInt(document.getElementById("size2").value);
+            
+            var arr1 = [];
+            var arr2 = [];
+            var arr3 = [];
+            var rem = 0;
+            
+            for (var i = 0; i < size1; i++) {
+                arr1.push(Math.floor(Math.random() * 9) + 1);
+            }
+            
+            for (var j = 0; j < size2; j++) {
+                arr2.push(Math.floor(Math.random() * 9) + 1);
+            }
+            
+            var i = arr1.length - 1;
+            var j = arr2.length - 1;
+            
+            while (i >= 0 || j >= 0 || rem > 0) {
+                var tempSum = (i >= 0 ? arr1[i] : 0) + (j >= 0 ? arr2[j] : 0) + rem;
+                arr3.push(tempSum % 10);
+                rem = Math.floor(tempSum / 10);
+                i--;
+                j--;
+            }
+            
+            var result = "Результат сложения: " + arr3.reverse().join("");
+            
+            document.getElementById("result").innerHTML = result;
+        }
+    </script>
+</body>
+</html>
