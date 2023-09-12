@@ -1,59 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Сложение массивов</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+
+        td {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Интерактивная таблица с фишками</title>
 </head>
 <body>
-    <h1>Сложение массивов</h1>
-    <label for="size1">Введите размер первого массива:</label>
-    <input type="number" id="size1">
-    <label for="size2"> <br>Введите размер второго массива:</label>
-    <input type="number" id="size2">
-    <button onclick="calculateSum()">Сложить</button>
-    <h2>Массив 1:</h2>
-    <div id="array1"></div>
-    <h2>Массив 2:</h2>
-    <div id="array2"></div>
-    <h2>Результат сложения:</h2>
-    <div id="result"></div>
+    <table>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
     <script>
-        function calculateSum() {
-            var size1 = parseInt(document.getElementById("size1").value);
-            var size2 = parseInt(document.getElementById("size2").value);
-            
-            var arr1 = [];
-            var arr2 = [];
-            var arr3 = [];
-            var rem = 0;
-            
-            for (var i = 0; i < size1; i++) {
-                var randomNum = Math.floor(Math.random() * 9) + 1;
-                arr1.push(randomNum);
-            }
-            
-            for (var j = 0; j < size2; j++) {
-                var randomNum = Math.floor(Math.random() * 9) + 1;
-                arr2.push(randomNum);
-            }
-            
-            document.getElementById("array1").innerHTML = arr1.join(", ");
-            document.getElementById("array2").innerHTML = arr2.join(", ");
-            
-            var i = arr1.length - 1;
-            var j = arr2.length - 1;
-            
-            while (i >= 0 || j >= 0 || rem > 0) {
-                var tempSum = (i >= 0 ? arr1[i] : 0) + (j >= 0 ? arr2[j] : 0) + rem;
-                arr3.push(tempSum % 10);
-                rem = Math.floor(tempSum / 10);
-                i--;
-                j--;
-            }
-            
-            var result = "Результат сложения: " + arr3.reverse().join("");
-            document.getElementById("result").innerHTML = result;
-        }
+        document.addEventListener("DOMContentLoaded", () => {
+            let currentPlayer = "⚪"; // Игрок, чей ход
+
+            const cells = document.querySelectorAll("td");
+
+            cells.forEach(cell => {
+                cell.addEventListener("click", () => {
+                    if (!cell.textContent) {
+                        cell.textContent = currentPlayer;
+                        currentPlayer = (currentPlayer === "⚪") ? "⚫" : "⚪"; // Смена игрока
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
