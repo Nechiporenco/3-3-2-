@@ -43,8 +43,8 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const gridContainer = document.querySelector(".grid-container");
-            const numRows = 3;
-            const numCols = 3;
+            const numRows = 9;
+            const numCols = 9;
             let currentPlayer = "⚪";
 
             for (let row = 0; row < numRows; row++) {
