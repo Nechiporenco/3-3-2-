@@ -1,125 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px;
-        }
-
-        .button-container {
-            margin-bottom: 20px;
-        }
-
-        button {
-            font-size: 16px;
-            padding: 10px 20px;
-            margin: 5px;
-        }
-
-        .game-container {
+        .board {
             display: grid;
-            border: 2px solid #000;
+            grid-template-columns: repeat(55, 1fr);
+            grid-gap: 2px;
+            width: 440px; /* Размеры доски */
+            height: 440px;
         }
-
-        .grid-cell {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
+        .cell {
+            width: 100%;
+            padding-bottom: 100%;
+            position: relative;
+            background-color: #fff;
         }
-
         .black {
             background-color: #000;
-            color: #fff;
-        }
-
-        .white {
-            background-color: #fff;
-            color: #000;
         }
     </style>
-    <title>Интерактивная доска игры</title>
 </head>
 <body>
-    <div class="button-container">
-        <button id="button3x3">3 на 3</button>
-        <button id="button9x9">9 на 9</button>
-        <button id="button55x55">55 на 55</button>
-    </div>
-    <div class="game-container" id="gameContainer">
-        <!-- Ячейки и фишки будут создаваться динамически с помощью JavaScript -->
-    </div>
+    <div class="board" id="board"></div>
+    
     <script>
-        const gameContainer = document.getElementById("gameContainer");
-        const button3x3 = document.getElementById("button3x3");
-        const button9x9 = document.getElementById("button9x9");
-        const button55x55 = document.getElementById("button55x55");
-        let numRows = 55;
-        let numCols = 55;
-        let currentPlayer = "⚪";
+        const board = document.getElementById('board');
+        let currentPlayer = 'white';
 
-        function createGameBoard() {
-            gameContainer.innerHTML = "";
-            gameContainer.style.gridTemplateColumns = `repeat(${numCols}, 30px)`;
-
-            for (let row = 0; row < numRows; row++) {
-                for (let col = 0; col < numCols; col++) {
-                    const cell = document.createElement("div");
-                    cell.classList.add("grid-cell");
-
-                    if ((row === 0 && col === Math.floor(numCols / 2)) || (row === numRows - 1 && col === Math.floor(numCols / 2))) {
-                        cell.textContent = currentPlayer;
-                        cell.classList.add(currentPlayer === "⚪" ? "white" : "black");
-                    }
-
-                    cell.addEventListener("click", () => {
-                        if (!cell.textContent) {
-                            const adjacentCells = gameContainer.querySelectorAll(".grid-cell");
-                            const cellIndex = Array.from(adjacentCells).indexOf(cell);
-
-                            const topCell = adjacentCells[cellIndex - numCols];
-                            const bottomCell = adjacentCells[cellIndex + numCols];
-
-                            if ((topCell && topCell.textContent === currentPlayer) || (bottomCell && bottomCell.textContent === currentPlayer)) {
-                                cell.textContent = currentPlayer;
-                                cell.classList.add(currentPlayer === "⚪" ? "white" : "black");
-                                currentPlayer = (currentPlayer === "⚪") ? "⚫" : "⚪";
-                            }
-                        }
-                    });
-
-                    gameContainer.appendChild(cell);
+        // Создаем и добавляем ячейки на доску
+        for (let row = 1; row <= 55; row++) {
+            for (let col = 1; col <= 55; col++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                if (row === 1 && col === 28) {
+                    cell.classList.add('black');
+                } else if (row === 55 && col === 28) {
+                    cell.classList.remove('black');
                 }
+                cell.addEventListener('click', () => placePiece(row, col));
+                board.appendChild(cell);
             }
         }
 
-        button3x3.addEventListener("click", () => {
-            numRows = 3;
-            numCols = 3;
-            createGameBoard();
-        });
+        // Функция для установки фишек
+        function placePiece(row, col) {
+            const cell = document.querySelector(`.board > div:nth-child(${(row - 1) * 55 + col})`);
 
-        button9x9.addEventListener("click", () => {
-            numRows = 9;
-            numCols = 9;
-            createGameBoard();
-        });
+            if (cell.classList.contains(currentPlayer)) {
+                alert('Вы не можете поставить фишку рядом с фишкой того же цвета.');
+                return;
+            }
 
-        button55x55.addEventListener("click", () => {
-            numRows = 55;
-            numCols = 55;
-            createGameBoard();
-        });
+            const adjacentCells = [
+                [row - 1, col],
+                [row + 1, col],
+                [row, col - 1],
+                [row, col + 1]
+            ];
 
-        createGameBoard();
+            const adjacentPiece = adjacentCells.some(coords => {
+                const [r, c] = coords;
+                if (r >= 1 && r <= 55 && c >= 1 && c <= 55) {
+                    const adjacentCell = document.querySelector(`.board > div:nth-child(${(r - 1) * 55 + c})`);
+                    return adjacentCell.classList.contains(currentPlayer);
+                }
+                return false;
+            });
+
+            if (adjacentPiece) {
+                cell.classList.add(currentPlayer);
+                currentPlayer = currentPlayer === 'white' ? 'black' : 'white';
+            } else {
+                alert('Вы можете поставить фишку только рядом с фишкой того же цвета.');
+            }
+        }
     </script>
 </body>
 </html>
