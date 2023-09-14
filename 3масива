@@ -16,7 +16,7 @@
             background-color: #fff;
         }
         .black {
-            background-color: #000;
+            background-color: #111;
         }
     </style>
 </head>
